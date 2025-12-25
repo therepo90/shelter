@@ -8,21 +8,21 @@
 
 
 <ion-content [fullscreen]="true">
-  <ion-grid>
+  <ion-grid class="ion-padding-top ion-padding-start">
     <ion-row class="ion-align-items-center">
-      <ion-col size="auto" class="ion-no-padding">
+      <ion-col size="auto" class="">
         <ion-icon name="ellipse" color="danger"></ion-icon>
       </ion-col>
       <ion-col size="4" class="ion-no-padding">nie był</ion-col>
     </ion-row>
-    <ion-row class=" ion-align-items-center">
-      <ion-col size="auto" class="ion-no-padding">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="auto" class="">
         <ion-icon name="ellipse" color="success"></ion-icon>
       </ion-col>
       <ion-col size="4" class="ion-no-padding">był</ion-col>
     </ion-row>
-    <ion-row class="">
-      <ion-col size="12" class=""><small><i>Kliknij, aby zaznaczyć spacer</i></small></ion-col>
+    <ion-row>
+      <ion-col size="12"><small><i>Kliknij w imię psa, aby zaznaczyć spacer</i></small></ion-col>
     </ion-row>
   </ion-grid>
   <ion-header collapse="condense">
@@ -37,6 +37,7 @@
         <tr>
           <th>BOX</th>
           <th>IMIĘ</th>
+          <th>STATUS</th>
         </tr>
       </thead>
       <tbody>
@@ -44,6 +45,9 @@
           <td>{{ dog.box }}</td>
           <td>
             <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': !dog.status, 'red-btn': dog.status}" (click)="onDogClick(dog)">{{ dog.imie }}</ion-button>
+          </td>
+          <td class="ion-text-center">
+            {{dog.status}}
           </td>
         </tr>
       </tbody>
