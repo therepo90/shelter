@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Psy w schronisku
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,26 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Psy w schronisku</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <div class="dogs-table-wrapper">
+    <table class="dogs-table">
+      <thead>
+        <tr>
+          <th>BOX</th>
+          <th>IMIĘ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dog of dogs">
+          <td>{{ dog.box }}</td>
+          <td>
+            <ion-button expand="block" class="dog-name-btn">{{ dog.imie }}</ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </ion-content>
