@@ -23,7 +23,7 @@ export interface Box {
 export class DogsService {
 
   private allDogs: Dog[] = [
-    { box: 'A1', name: 'Reksio/Burek/Lunek/Anatol', status: 'x' },
+    { box: 'A1', name: 'Reksio/Burek/Lunek/Żaba', status: 'x' },
     { box: 'B2', name: 'Azor', status: '' },
     { box: 'C3', name: 'Johny', status: 'X' },
     { box: 'D4', name: 'Max', status: '' },
@@ -36,9 +36,14 @@ export class DogsService {
 
   constructor(private http: HttpClient, private platform: Platform) {}
 
-  // Return allDogs without the 'status' property
+  // Return allDogs without the 'status' property if mock, otherwise fetch from backend
   getAllDogs(): Observable<Dog[]> {
-    return of(this.allDogs);
+    if (environment.mock) {
+      return of(this.allDogs);
+    } else {
+      const apiUrl = environment.apiUrl + '/alldogs';
+      return this.http.get<Dog[]>(apiUrl);
+    }
   }
 
   sendDogClick(dog: Dog): Observable<any> {
