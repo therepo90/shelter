@@ -49,6 +49,11 @@
     min-height: 3rem;
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;
+    max-width: 200px;
+    // text ellipsis
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

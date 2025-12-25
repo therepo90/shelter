@@ -21,21 +21,11 @@ export interface Box {
 
 @Injectable({ providedIn: 'root' })
 export class DogsService {
-  private myDogs: Dog[] = [
-    { box: 'A1', name: 'Reksio', status: 'x' },
-    { box: 'B2', name: 'Azor', status: '' },
-    { box: 'C3', name: 'Burek', status: 'X' },
-    { box: 'D4', name: 'Max', status: '' },
-    { box: 'E5', name: 'Fafik', status: 'x' },
-    { box: 'F6', name: 'Luna', status: '' },
-    { box: 'G7', name: 'Milo', status: 'X' },
-    { box: 'H8', name: 'Sara', status: '' },
-  ];
 
   private allDogs: Dog[] = [
-    { box: 'A1', name: 'Reksio', status: 'x' },
+    { box: 'A1', name: 'Reksio/Burek/Lunek/Anatol', status: 'x' },
     { box: 'B2', name: 'Azor', status: '' },
-    { box: 'C3', name: 'Burek', status: 'X' },
+    { box: 'C3', name: 'Johny', status: 'X' },
     { box: 'D4', name: 'Max', status: '' },
     { box: 'E5', name: 'Fafik', status: 'x' },
     { box: 'F6', name: 'Luna', status: '' },
