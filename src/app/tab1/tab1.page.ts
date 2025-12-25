@@ -11,13 +11,15 @@ import { CommonModule } from '@angular/common';
 })
 export class Tab1Page implements OnInit {
   dogs: Dog[] = [];
+  selectedDogs: Dog[] = [];
   constructor(
     private dogsService: DogsService
   ) {}
 
-  ngOnInit() {
-    this.dogsService.getDogs().subscribe((dogs) => {
-      this.dogs = dogs;
+  async ngOnInit() {
+    this.dogsService.getAllDogs().subscribe(async (allDogs) => {
+      const selected = await this.dogsService.getSelectedDogs();
+      this.dogs = allDogs.filter(dog => selected.some(sel => sel.box === dog.box && sel.imie === dog.imie));
     });
   }
 

@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { Preferences } from '@capacitor/preferences';
 
 export interface Dog {
   box: string;
@@ -57,5 +58,36 @@ export class DogsService {
       // WebView: można używać Angular HttpClient
       return this.http.post(apiUrl, { box: dog.box, imie: dog.imie, status: dog.status });
     }*/
+  }
+
+  // --- Selected Dogs Persistence ---
+  async getSelectedDogs(): Promise<Dog[]> {
+    const { value } = await Preferences.get({ key: 'selectedDogs' });
+    if (value) {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  }
+
+  async setSelectedDogs(dogs: Dog[]): Promise<void> {
+    await Preferences.set({ key: 'selectedDogs', value: JSON.stringify(dogs) });
+  }
+
+  async addSelectedDog(dog: Dog): Promise<void> {
+    const dogs = await this.getSelectedDogs();
+    if (!dogs.some(d => d.box === dog.box && d.imie === dog.imie)) {
+      dogs.push(dog);
+      await this.setSelectedDogs(dogs);
+    }
+  }
+
+  async removeSelectedDog(dog: Dog): Promise<void> {
+    let dogs = await this.getSelectedDogs();
+    dogs = dogs.filter(d => !(d.box === dog.box && d.imie === dog.imie));
+    await this.setSelectedDogs(dogs);
   }
 }
