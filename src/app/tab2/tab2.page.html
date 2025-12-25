@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Ustawienia
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,27 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Ustawienia</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list style="padding: 16px;">
+    <ion-item>
+      <ion-label position="stacked">Wyszukaj psa</ion-label>
+      <ion-searchbar [(ngModel)]="searchTerm" placeholder="Wpisz imię lub box" (ionInput)="filterDogs()"></ion-searchbar>
+    </ion-item>
+    <ion-list *ngIf="filteredDogs.length > 0 && searchTerm">
+      <ion-item *ngFor="let dog of filteredDogs" (click)="selectDog(dog)">
+        {{ dog.box }}-{{ dog.imie }}
+      </ion-item>
+    </ion-list>
+    <ion-list *ngIf="selectedDogs.length > 0">
+      <ion-item *ngFor="let dog of selectedDogs; let i = index">
+        <ion-text>{{ dog.box }}-{{ dog.imie }}</ion-text>
+        <ion-button fill="clear" slot="end" color="danger" (click)="removeDog(i)">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-list>
 </ion-content>

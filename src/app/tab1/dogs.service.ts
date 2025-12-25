@@ -12,7 +12,7 @@ export interface Dog {
 
 @Injectable({ providedIn: 'root' })
 export class DogsService {
-  private dogs: Dog[] = [
+  private myDogs: Dog[] = [
     { box: 'A1', imie: 'Reksio', status: 'x' },
     { box: 'B2', imie: 'Azor', status: '' },
     { box: 'C3', imie: 'Burek', status: 'X' },
@@ -23,10 +23,26 @@ export class DogsService {
     { box: 'H8', imie: 'Sara', status: '' },
   ];
 
+  private allDogs: Dog[] = [
+    { box: 'A1', imie: 'Reksio', status: 'x' },
+    { box: 'B2', imie: 'Azor', status: '' },
+    { box: 'C3', imie: 'Burek', status: 'X' },
+    { box: 'D4', imie: 'Max', status: '' },
+    { box: 'E5', imie: 'Fafik', status: 'x' },
+    { box: 'F6', imie: 'Luna', status: '' },
+    { box: 'G7', imie: 'Milo', status: 'X' },
+    { box: 'H8', imie: 'Sara', status: '' },
+  ];
+
+
   constructor(private http: HttpClient, private platform: Platform) {}
 
   getDogs(): Observable<Dog[]> {
-    return of(this.dogs);
+    return of(this.myDogs);
+  }
+
+  getAllDogs(): Observable<Dog[]> {
+    return of(this.allDogs);
   }
 
   sendDogClick(dog: Dog): Observable<any> {
