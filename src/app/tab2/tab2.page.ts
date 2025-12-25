@@ -5,6 +5,7 @@ import { DogsService, Dog } from '../tab1/dogs.service';
 import {IonicModule} from "@ionic/angular";
 import {addIcons} from "ionicons";
 import { close } from 'ionicons/icons';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-tab2',
@@ -20,16 +21,26 @@ export class Tab2Page implements OnInit {
   selectedDogs: Dog[] = [];
   private dogsService = inject(DogsService);
 
-  ngOnInit() {
+  constructor() {
+    addIcons({close});
+  }
+
+  async ngOnInit() {
     this.dogsService.getAllDogs().subscribe(dogs => {
       this.dogs = dogs;
       this.filteredDogs = dogs;
     });
+    try {
+      const { value } = await Preferences.get({ key: 'selectedDogs' });
+      if (value) {
+        this.selectedDogs = JSON.parse(value);
+      }
+    } catch (err) {
+      console.warn('Preferences not ready or error occurred:', err);
+      this.selectedDogs = [];
+    }
   }
 
-  constructor() {
-    addIcons({close})
-  }
   filterDogs() {
     const term = this.searchTerm.toLowerCase();
     this.filteredDogs = this.dogs.filter(dog =>
@@ -37,19 +48,18 @@ export class Tab2Page implements OnInit {
     );
   }
 
-  selectDog(dog: Dog) {
+  async selectDog(dog: Dog) {
     if (!this.selectedDogs.some(d => d.box === dog.box && d.imie === dog.imie)) {
       this.selectedDogs.push(dog);
+      console.log('Saving Selected Dogs:', this.selectedDogs);
+      await Preferences.set({ key: 'selectedDogs', value: JSON.stringify(this.selectedDogs) });
     }
     this.searchTerm = '';
     this.filteredDogs = [];
   }
 
-  removeDog(index: number) {
+  async removeDog(index: number) {
     this.selectedDogs.splice(index, 1);
-  }
-
-  compareDogs(dog1: Dog, dog2: Dog): boolean {
-    return dog1 && dog2 && dog1.box === dog2.box && dog1.imie === dog2.imie;
+    await Preferences.set({ key: 'selectedDogs', value: JSON.stringify(this.selectedDogs) });
   }
 }
