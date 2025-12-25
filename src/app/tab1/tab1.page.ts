@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ViewWillEnter } from '@ionic/angular';
 import { DogsService, Dog } from './dogs.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['tab1.page.scss'],
   imports: [CommonModule, IonicModule ],
 })
-export class Tab1Page implements OnInit {
+export class Tab1Page implements OnInit, ViewWillEnter {
   dogs: Dog[] = [];
   selectedDogs: Dog[] = [];
   constructor(
@@ -17,6 +17,14 @@ export class Tab1Page implements OnInit {
   ) {}
 
   async ngOnInit() {
+    await this.loadDogs();
+  }
+
+  async ionViewWillEnter() {
+    await this.loadDogs();
+  }
+
+  private async loadDogs() {
     this.dogsService.getAllDogs().subscribe(async (allDogs) => {
       const selected = await this.dogsService.getSelectedBoxes();
       this.dogs = allDogs.filter(dog => selected.some(sel => sel.box === dog.box));
