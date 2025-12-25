@@ -18,8 +18,8 @@ export class Tab1Page implements OnInit {
 
   async ngOnInit() {
     this.dogsService.getAllDogs().subscribe(async (allDogs) => {
-      const selected = await this.dogsService.getSelectedDogs();
-      this.dogs = allDogs.filter(dog => selected.some(sel => sel.box === dog.box && sel.imie === dog.imie));
+      const selected = await this.dogsService.getSelectedBoxes();
+      this.dogs = allDogs.filter(dog => selected.some(sel => sel.box === dog.box));
     });
   }
 

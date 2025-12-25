@@ -20,12 +20,12 @@
     </ion-item>
     <ion-list *ngIf="filteredDogs.length > 0 && searchTerm">
       <ion-item *ngFor="let dog of filteredDogs" (click)="selectDog(dog)">
-        {{ dog.box }}-{{ dog.imie }}
+        {{ dog.box }}-{{ dog.name }}
       </ion-item>
     </ion-list>
     <ion-list *ngIf="selectedDogs.length > 0">
       <ion-item *ngFor="let dog of selectedDogs; let i = index">
-        <ion-text>{{ dog.box }}-{{ dog.imie }}</ion-text>
+        <ion-text>{{ dog.box }}-{{ dog.name }}</ion-text>
         <ion-button fill="clear" slot="end" color="danger" (click)="removeDog(i)">
           <ion-icon name="close"></ion-icon>
         </ion-button>

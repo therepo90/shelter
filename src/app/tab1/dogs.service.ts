@@ -5,50 +5,55 @@ import { Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { Preferences } from '@capacitor/preferences';
 
+export interface DogSimple {
+  box: string;
+  name: string;
+}
 export interface Dog {
   box: string;
-  imie: string;
+  name: string;
   status: string;
+}
+
+export interface Box {
+  box: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class DogsService {
   private myDogs: Dog[] = [
-    { box: 'A1', imie: 'Reksio', status: 'x' },
-    { box: 'B2', imie: 'Azor', status: '' },
-    { box: 'C3', imie: 'Burek', status: 'X' },
-    { box: 'D4', imie: 'Max', status: '' },
-    { box: 'E5', imie: 'Fafik', status: 'x' },
-    { box: 'F6', imie: 'Luna', status: '' },
-    { box: 'G7', imie: 'Milo', status: 'X' },
-    { box: 'H8', imie: 'Sara', status: '' },
+    { box: 'A1', name: 'Reksio', status: 'x' },
+    { box: 'B2', name: 'Azor', status: '' },
+    { box: 'C3', name: 'Burek', status: 'X' },
+    { box: 'D4', name: 'Max', status: '' },
+    { box: 'E5', name: 'Fafik', status: 'x' },
+    { box: 'F6', name: 'Luna', status: '' },
+    { box: 'G7', name: 'Milo', status: 'X' },
+    { box: 'H8', name: 'Sara', status: '' },
   ];
 
   private allDogs: Dog[] = [
-    { box: 'A1', imie: 'Reksio', status: 'x' },
-    { box: 'B2', imie: 'Azor', status: '' },
-    { box: 'C3', imie: 'Burek', status: 'X' },
-    { box: 'D4', imie: 'Max', status: '' },
-    { box: 'E5', imie: 'Fafik', status: 'x' },
-    { box: 'F6', imie: 'Luna', status: '' },
-    { box: 'G7', imie: 'Milo', status: 'X' },
-    { box: 'H8', imie: 'Sara', status: '' },
+    { box: 'A1', name: 'Reksio', status: 'x' },
+    { box: 'B2', name: 'Azor', status: '' },
+    { box: 'C3', name: 'Burek', status: 'X' },
+    { box: 'D4', name: 'Max', status: '' },
+    { box: 'E5', name: 'Fafik', status: 'x' },
+    { box: 'F6', name: 'Luna', status: '' },
+    { box: 'G7', name: 'Milo', status: 'X' },
+    { box: 'H8', name: 'Sara', status: '' },
   ];
 
 
   constructor(private http: HttpClient, private platform: Platform) {}
 
-  getDogs(): Observable<Dog[]> {
-    return of(this.myDogs);
-  }
-
+  // Return allDogs without the 'status' property
   getAllDogs(): Observable<Dog[]> {
     return of(this.allDogs);
   }
 
   sendDogClick(dog: Dog): Observable<any> {
     const apiUrl = environment.apiUrl;
-    return this.http.post(apiUrl, { box: dog.box, imie: dog.imie, status: dog.status });
+    return this.http.post(apiUrl, { box: dog.box, name: dog.name, status: dog.status });
     /*if (this.platform.is('hybrid')) {
       // Tu można użyć natywnego pluginu HTTP, np. @awesome-cordova-plugins/http
       // return from(Promise.resolve({mock: 'native'}));
@@ -56,12 +61,13 @@ export class DogsService {
       return of({mock: 'native'});
     } else {
       // WebView: można używać Angular HttpClient
-      return this.http.post(apiUrl, { box: dog.box, imie: dog.imie, status: dog.status });
+      return this.http.post(apiUrl, { box: dog.box, name: dog.name, status: dog.status });
     }*/
   }
 
   // --- Selected Dogs Persistence ---
-  async getSelectedDogs(): Promise<Dog[]> {
+  // Only persist the 'box' property for each selected dog
+  async getSelectedBoxes(): Promise<Box[]> {
     const { value } = await Preferences.get({ key: 'selectedDogs' });
     if (value) {
       try {
@@ -73,21 +79,24 @@ export class DogsService {
     return [];
   }
 
-  async setSelectedDogs(dogs: Dog[]): Promise<void> {
-    await Preferences.set({ key: 'selectedDogs', value: JSON.stringify(dogs) });
+
+  async setSelectedDogs(dogs: any[]): Promise<void> {
+    // Only save array of { box } objects
+    const boxes = dogs.map((d: any) => ({ box: d.box }));
+    await Preferences.set({ key: 'selectedDogs', value: JSON.stringify(boxes) });
   }
 
   async addSelectedDog(dog: Dog): Promise<void> {
-    const dogs = await this.getSelectedDogs();
-    if (!dogs.some(d => d.box === dog.box && d.imie === dog.imie)) {
-      dogs.push(dog);
+    const dogs = await this.getSelectedBoxes();
+    if (!dogs.some((d: any) => d.box === dog.box)) {
+      dogs.push({ box: dog.box });
       await this.setSelectedDogs(dogs);
     }
   }
 
   async removeSelectedDog(dog: Dog): Promise<void> {
-    let dogs = await this.getSelectedDogs();
-    dogs = dogs.filter(d => !(d.box === dog.box && d.imie === dog.imie));
+    let dogs = await this.getSelectedBoxes();
+    dogs = dogs.filter((d: any) => d.box !== dog.box);
     await this.setSelectedDogs(dogs);
   }
 }

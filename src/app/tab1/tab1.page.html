@@ -44,7 +44,7 @@
         <tr *ngFor="let dog of dogs">
           <td>{{ dog.box }}</td>
           <td>
-            <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': !dog.status, 'red-btn': dog.status}" (click)="onDogClick(dog)">{{ dog.imie }}</ion-button>
+            <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': !dog.status, 'red-btn': dog.status}" (click)="onDogClick(dog)">{{ dog.name }}</ion-button>
           </td>
           <td class="ion-text-center">
             {{dog.status}}
