@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Psy w schronisku
+      Moje psy
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Psy w schronisku</ion-title>
+      <ion-title size="large">Moje psy</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -25,7 +25,7 @@
         <tr *ngFor="let dog of dogs">
           <td>{{ dog.box }}</td>
           <td>
-            <ion-button expand="block" class="dog-name-btn">{{ dog.imie }}</ion-button>
+            <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': !dog.status, 'red-btn': dog.status}" (click)="onDogClick(dog)">{{ dog.imie }}</ion-button>
           </td>
         </tr>
       </tbody>
