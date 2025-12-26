@@ -8,6 +8,9 @@
 
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-grid class="ion-padding-top ion-padding-start">
     <ion-row class="ion-align-items-center">
       <ion-col size="auto" class="">

@@ -17,6 +17,7 @@ import {
   IonToolbar
 } from "@ionic/angular/standalone";
 import { sortDogsByBox } from '../utils/sort-dogs.util';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-tab2',
@@ -51,23 +52,18 @@ export class Tab2Page implements OnInit, ViewWillEnter {
     this.isLoading = true;
     this.loadError = null;
     try {
-      this.dogsService.getAllDogs().subscribe({
-        next: (dogs) => {
-          this.dogs = sortDogsByBox(dogs);
-          this.filteredDogs = sortDogsByBox(dogs);
-          this.isLoading = false;
-        },
-        error: () => {
-          this.loadError = 'Błąd wczytywania piesków';
-          this.isLoading = false;
-        }
-      });
-      const selectedBoxes = await this.dogsService.getSelectedBoxes();
-      const allDogs = await this.dogsService.getAllDogs().toPromise();
-      this.selectedDogs = sortDogsByBox(
-        allDogs!.filter(dog => selectedBoxes.some(sel => sel.box === dog.box))
-      );
+      // Pobierz oba źródła równolegle i poczekaj na oba
+      const [allDogs, selectedBoxes] = await Promise.all([
+        firstValueFrom(this.dogsService.getAllDogs()),
+        this.dogsService.getSelectedBoxes()
+      ]);
+      this.dogs = sortDogsByBox(allDogs);
+      this.filteredDogs = sortDogsByBox(allDogs);
       this.selectedBoxes = selectedBoxes;
+      this.selectedDogs = sortDogsByBox(
+        allDogs.filter(dog => selectedBoxes.some(sel => sel.box === dog.box))
+      );
+      this.isLoading = false;
     } catch (err) {
       this.loadError = 'Błąd wczytywania piesków';
       this.selectedDogs = [];

@@ -13,7 +13,7 @@ import {
   IonToolbar,
   IonGrid,
   IonRow,
-  IonCol, IonSpinner
+  IonCol, IonSpinner, IonRefresher, IonRefresherContent
 } from "@ionic/angular/standalone";
 import { sortDogsByBox } from '../utils/sort-dogs.util';
 
@@ -21,7 +21,7 @@ import { sortDogsByBox } from '../utils/sort-dogs.util';
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonText, IonButton, IonIcon, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonSpinner],
+  imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonText, IonButton, IonIcon, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonSpinner, IonRefresher, IonRefresherContent],
 })
 export class Tab1Page implements OnInit, ViewWillEnter {
   dogs: Dog[] = [];
@@ -95,5 +95,10 @@ export class Tab1Page implements OnInit, ViewWillEnter {
         toast.present();
       }
     });
+  }
+
+  async doRefresh(event: any) {
+    await this.loadDogs();
+    event.target.complete();
   }
 }
