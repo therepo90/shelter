@@ -6,13 +6,23 @@ import {IonicModule} from "@ionic/angular";
 import {addIcons} from "ionicons";
 import { close } from 'ionicons/icons';
 import { Preferences } from '@capacitor/preferences';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonIcon, IonItem, IonLabel, IonList,
+  IonSearchbar,
+  IonText,
+  IonTitle,
+  IonToolbar
+} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule,IonLabel, IonHeader, IonToolbar, IonText, IonButton, IonIcon, IonTitle, IonContent, IonSearchbar, IonList, IonItem]
 })
 export class Tab2Page implements OnInit {
   dogs: DogSimple[] = [];

@@ -41,13 +41,13 @@ export class DogsService {
     if (environment.mock) {
       return of(this.allDogs);
     } else {
-      const apiUrl = environment.apiUrl + '/alldogs';
+      const apiUrl = environment.apiUrl + '/dogs';
       return this.http.get<Dog[]>(apiUrl);
     }
   }
 
   sendDogClick(dog: Dog): Observable<any> {
-    const apiUrl = environment.apiUrl;
+    const apiUrl = `${environment.apiUrl}/dogs/${dog.box}/mark`;
     return this.http.post(apiUrl, { box: dog.box, name: dog.name, status: dog.status });
     /*if (this.platform.is('hybrid')) {
       // Tu można użyć natywnego pluginu HTTP, np. @awesome-cordova-plugins/http

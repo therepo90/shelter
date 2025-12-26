@@ -2,12 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule, ViewWillEnter } from '@ionic/angular';
 import { DogsService, Dog } from './dogs.service';
 import { CommonModule } from '@angular/common';
+import {FormsModule} from "@angular/forms";
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonIcon, IonItem, IonList,
+  IonSearchbar,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  IonGrid,
+  IonRow,
+  IonCol
+} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [CommonModule, IonicModule ],
+  imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonText, IonButton, IonIcon, IonTitle, IonContent, IonSearchbar, IonList, IonItem, IonGrid, IonRow, IonCol, IonContent],
 })
 export class Tab1Page implements OnInit, ViewWillEnter {
   dogs: Dog[] = [];
