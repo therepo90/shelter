@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ViewWillEnter, LoadingController, ToastController } from '@ionic/angular';
+import { ViewWillEnter, LoadingController, ToastController, ModalController } from '@ionic/angular';
 import { DogsService, Dog } from './dogs.service';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
@@ -16,6 +16,7 @@ import {
   IonCol, IonSpinner, IonRefresher, IonRefresherContent
 } from "@ionic/angular/standalone";
 import { sortDogsByBox } from '../utils/sort-dogs.util';
+import { ConfirmWalkModalComponent } from '../modals/confirm-walk-modal/confirm-walk-modal.component';
 
 @Component({
   selector: 'app-tab1',
@@ -32,6 +33,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   private dogsService = inject(DogsService);
   private loadingCtrl = inject(LoadingController);
   private toastCtrl = inject(ToastController);
+  private modalCtrl = inject(ModalController);
 
   constructor() {}
 
@@ -67,18 +69,25 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   }
 
   async onDogClick(dog: Dog) {
-    console.log('Kliknięto pieska:', dog);
+    const modal = await this.modalCtrl.create({
+      component: ConfirmWalkModalComponent,
+      componentProps: { dog },
+      showBackdrop: true,
+    });
+    await modal.present();
+    const { role } = await modal.onDidDismiss();
+    if (role !== 'confirm') return;
     this.markError = null;
     const loading = await this.loadingCtrl.create({
-      message: 'Zapisuję...'
+      message: `Zapisuję spacer dla: ${dog.name}`
     });
     await loading.present();
     this.dogsService.sendDogClick(dog).subscribe({
       next: async () => {
         await loading.dismiss();
-        dog.status = 'X'; // Ustaw status na X po sukcesie
+        dog.status = 'X';
         const toast = await this.toastCtrl.create({
-          message: 'Spacer zapisany!',
+          message: `Spacer zapisany dla: ${dog.name}`,
           duration: 1200,
           color: 'success'
         });
@@ -86,9 +95,9 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       },
       error: async () => {
         await loading.dismiss();
-        this.markError = 'Błąd zapisywania';
+        this.markError = `Błąd zapisywania spaceru dla: ${dog.name}`;
         const toast = await this.toastCtrl.create({
-          message: 'Błąd zapisywania',
+          message: `Błąd zapisywania spaceru dla: ${dog.name}`,
           duration: 2000,
           color: 'danger'
         });

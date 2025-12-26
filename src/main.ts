@@ -8,6 +8,7 @@ import { AppComponent } from './app/app.component';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { defineCustomElement as defineLoading } from '@ionic/core/components/ion-loading';
 import { defineCustomElement as defineToast } from '@ionic/core/components/ion-toast';
+import { defineCustomElement as defineModal } from '@ionic/core/components/ion-modal';
 import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {IonicModule} from "@ionic/angular";
 import {importProvidersFrom} from "@angular/core";
@@ -16,6 +17,7 @@ import {importProvidersFrom} from "@angular/core";
 defineCustomElements(window);
 defineLoading();
 defineToast();
+defineModal();
 
 bootstrapApplication(AppComponent, {
   providers: [
