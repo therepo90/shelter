@@ -54,6 +54,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &.disabled {
+      opacity: 1;
+    }
   }
 }
 

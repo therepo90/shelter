@@ -31,7 +31,9 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="dogs-table-wrapper">
+  <ion-spinner *ngIf="isLoading" name="crescent" class="ion-margin"></ion-spinner>
+  <ion-text color="danger" *ngIf="loadError">{{ loadError }}</ion-text>
+  <div class="dogs-table-wrapper" *ngIf="!isLoading && !loadError">
     <table class="dogs-table">
       <thead>
         <tr>
@@ -44,7 +46,8 @@
         <tr *ngFor="let dog of dogs">
           <td>{{ dog.box }}</td>
           <td>
-            <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': dog.status, 'red-btn': !dog.status}" (click)="onDogClick(dog)">{{ dog.name }}</ion-button>
+            <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': dog.status, 'red-btn': !dog.status}" (click)="onDogClick(dog)" [disabled]="dog.status === 'X'">{{ dog.name }}</ion-button>
+            <ion-text color="danger" *ngIf="markError">{{ markError }}</ion-text>
           </td>
           <td class="ion-text-center">
             {{dog.status}}

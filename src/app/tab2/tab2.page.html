@@ -13,10 +13,12 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list style="padding: 16px;">
+  <ion-spinner *ngIf="isLoading" name="crescent" class="ion-margin"></ion-spinner>
+  <ion-text color="danger" *ngIf="loadError">{{ loadError }}</ion-text>
+  <ion-list style="padding: 16px;" *ngIf="!isLoading && !loadError">
     <ion-item>
       <ion-label position="stacked">Wyszukaj psa</ion-label>
-      <ion-searchbar [(ngModel)]="searchTerm" placeholder="Wpisz imię lub box" (ionInput)="filterDogs()"></ion-searchbar>
+      <ion-searchbar [(ngModel)]="searchTerm" placeholder="Wpisz imię lub box" (ionInput)="filterDogs()" [disabled]="isLoading"></ion-searchbar>
     </ion-item>
     <ion-list *ngIf="filteredDogs.length > 0 && searchTerm">
       <ion-item *ngFor="let dog of filteredDogs" (click)="selectDog(dog)">
