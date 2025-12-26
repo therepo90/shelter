@@ -1,0 +1,29 @@
+.dog-suggestions-list {
+  background: #f7fafd;
+  border-radius: 1.2rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 0.2rem 0.2rem 0.2rem 0.2rem;
+}
+.dog-suggestion-item {
+  background: #e3f2fd;
+  border-radius: 0.9rem;
+  margin: 0.18rem 0.2rem;
+  transition: background 0.18s;
+  cursor: pointer;
+  border: 1.5px solid #b3e5fc;
+}
+.dog-suggestion-item:hover, .dog-suggestion-item:active {
+  background: #b3e5fc;
+}
+.dog-suggestion-box {
+  font-weight: bold;
+  color: #1976d2;
+  margin-right: 0.7em;
+  font-size: 1.13em;
+}
+.dog-suggestion-name {
+  color: #333;
+  font-size: 1.13em;
+}
+

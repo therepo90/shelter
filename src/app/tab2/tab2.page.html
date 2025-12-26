@@ -20,9 +20,12 @@
       <ion-label position="stacked">Wyszukaj psa</ion-label>
       <ion-searchbar [(ngModel)]="searchTerm" placeholder="Wpisz imię lub box" (ionInput)="filterDogs()" [disabled]="isLoading"></ion-searchbar>
     </ion-item>
-    <ion-list *ngIf="filteredDogs.length > 0 && searchTerm">
-      <ion-item *ngFor="let dog of filteredDogs" (click)="selectDog(dog)">
-        {{ dog.box }}-{{ dog.name }}
+    <ion-list *ngIf="filteredDogs.length > 0 && searchTerm" class="dog-suggestions-list">
+      <ion-item *ngFor="let dog of filteredDogs" (click)="selectDog(dog)" class="dog-suggestion-item">
+        <ion-label>
+          <span class="dog-suggestion-box">{{ dog.box }}</span>
+          <span class="dog-suggestion-name">{{ dog.name }}</span>
+        </ion-label>
       </ion-item>
     </ion-list>
     <ion-list *ngIf="selectedDogs.length > 0">
