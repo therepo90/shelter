@@ -10,7 +10,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "deploy": "ng deploy --base-href=/shelter/"
+    "deploy:pages": "ng deploy --base-href=/shelter/",
+    "deploy": "ng deploy --base-href=/"
   },
   "private": true,
   "dependencies": {
