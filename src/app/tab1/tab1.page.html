@@ -49,7 +49,7 @@
         <tr *ngFor="let dog of dogs">
           <td>{{ dog.box }}</td>
           <td>
-            <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': dog.status, 'red-btn': !dog.status}" (click)="onDogClick(dog)" [disabled]="dog.status === 'X'">{{ dog.name }}</ion-button>
+            <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': dog.status, 'red-btn': !dog.status}" (click)="onDogClick(dog)" [disabled]="dog.status === 'X' || dog.status === 'x'">{{ dog.name }}</ion-button>
             <ion-text color="danger" *ngIf="markError">{{ markError }}</ion-text>
             <div *ngIf="dog.recentPresence" style="display:flex; gap:4px; margin-top:4px;justify-content:space-between;">
               <ng-container *ngFor="let presence of dog.recentPresence">
