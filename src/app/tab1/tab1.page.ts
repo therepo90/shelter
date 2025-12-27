@@ -92,6 +92,11 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       next: async () => {
         await loading.dismiss();
         dog.status = 'X';
+        //set recent present for this day also. DD/MM/YYYY. Its last
+        if(dog.recentPresence && dog.recentPresence.length) {
+          dog.recentPresence[dog.recentPresence.length - 1].value = 'X';
+        }
+
         const toast = await this.toastCtrl.create({
           message: `Spacer zapisany dla: ${dog.name}`,
           duration: 1200,
