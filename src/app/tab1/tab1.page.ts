@@ -18,6 +18,7 @@ import {
 import { sortDogsByBox } from '../utils/sort-dogs.util';
 import { ConfirmWalkModalComponent } from '../modals/confirm-walk-modal/confirm-walk-modal.component';
 import {environment} from "../../environments/environment";
+import {map} from "rxjs";
 
 @Component({
   selector: 'app-tab1',
@@ -36,11 +37,15 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   private toastCtrl = inject(ToastController);
   private modalCtrl = inject(ModalController);
   mock = environment.mock;
+  live = undefined;
 
   constructor() {}
 
   async ngOnInit() {
     await this.loadDogs();
+    this.isLive().subscribe((live)=>{
+      this.live = live;
+  });
   }
 
   async ionViewWillEnter() {
@@ -111,5 +116,9 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   async doRefresh(event: any) {
     await this.loadDogs();
     event.target.complete();
+  }
+
+  isLive() {
+    return this.dogsService.getCfg().pipe(map(cfg => cfg.live));
   }
 }
