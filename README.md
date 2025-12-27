@@ -5,4 +5,5 @@ Aplikacja do organizowania spacerów z psami dla KTOZ Kraków.
 ✅ Sprawdzone i bezpieczne  
 🛡️ Przeskanowane na wirusy  
 🐕 Idealne dla wszystkich miłośników psów  
+🐕 Żadnych wymaganych uprawnień  
 📍 Lokalizacja: Kraków
