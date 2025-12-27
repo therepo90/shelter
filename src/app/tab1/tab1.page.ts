@@ -17,6 +17,7 @@ import {
 } from "@ionic/angular/standalone";
 import { sortDogsByBox } from '../utils/sort-dogs.util';
 import { ConfirmWalkModalComponent } from '../modals/confirm-walk-modal/confirm-walk-modal.component';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-tab1',
@@ -34,6 +35,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   private loadingCtrl = inject(LoadingController);
   private toastCtrl = inject(ToastController);
   private modalCtrl = inject(ModalController);
+  mock = environment.mock;
 
   constructor() {}
 
@@ -58,12 +60,12 @@ export class Tab1Page implements OnInit, ViewWillEnter {
           this.isLoading = false;
         },
         error: () => {
-          this.loadError = 'Błąd ładowania piesków';
+          this.loadError = 'Błąd wczytywania piesków';
           this.isLoading = false;
         }
       });
     } catch {
-      this.loadError = 'Błąd ładowania piesków';
+      this.loadError = 'Błąd wczytywania piesków';
       this.isLoading = false;
     }
   }

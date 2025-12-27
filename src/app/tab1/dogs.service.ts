@@ -47,6 +47,10 @@ export class DogsService {
   }
 
   sendDogClick(dog: Dog): Observable<any> {
+    if(environment.mock) {
+      console.log('Mock sendDogClick:', dog);
+      return of({ success: true });
+    }
     const apiUrl = `${environment.apiUrl}/dogs/${dog.box}/mark`;
     return this.http.post(apiUrl, { box: dog.box, name: dog.name, status: dog.status });
     /*if (this.platform.is('hybrid')) {
@@ -79,19 +83,5 @@ export class DogsService {
     // Only save array of { box } objects
     const boxes = dogs.map((d: any) => ({ box: d.box }));
     await Preferences.set({ key: 'selectedDogs', value: JSON.stringify(boxes) });
-  }
-
-  async addSelectedDog(dog: Dog): Promise<void> {
-    const dogs = await this.getSelectedBoxes();
-    if (!dogs.some((d: any) => d.box === dog.box)) {
-      dogs.push({ box: dog.box });
-      await this.setSelectedDogs(dogs);
-    }
-  }
-
-  async removeSelectedDog(dog: Dog): Promise<void> {
-    let dogs = await this.getSelectedBoxes();
-    dogs = dogs.filter((d: any) => d.box !== dog.box);
-    await this.setSelectedDogs(dogs);
   }
 }
