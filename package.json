@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "deploy:pages": "ng deploy --base-href=/shelter/",
-    "deploy": "ng deploy --base-href=/"
+    "deploy": "git add . && git commit -m \"rls\" && git push -u && ng deploy --base-href=/"
   },
   "private": true,
   "dependencies": {
