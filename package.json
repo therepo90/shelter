@@ -13,7 +13,7 @@
     "deploy:pages": "ng deploy --base-href=/shelter/",
     "ionserve": "ionic serve",
     "mobiledep": "ionic build && ionic cap copy && ionic cap sync && ionic cap open android",
-    "deploy": "git add . && git commit -m \"rls\" && git push -u && ng deploy --base-href=/"
+    "deploy": "git add . && git commit -m \"rls\" && git push -u && npm run mobiledep && ng deploy --base-href=/"
   },
   "private": true,
   "dependencies": {

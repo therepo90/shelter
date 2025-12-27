@@ -120,4 +120,8 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   isLive() {
     return this.dogsService.getCfg().pipe(map(cfg => cfg.live));
   }
+
+  protected getShortDate(dateMMDDYYYY: string) {
+    return dateMMDDYYYY.split('/').slice(0, 2).join('/');
+  }
 }

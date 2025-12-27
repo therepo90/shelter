@@ -15,6 +15,7 @@ export interface Dog {
   box: string;
   name: string;
   status: string;
+  recentPresence?: { date: string; value: string | null }[];
 }
 
 export interface Box {

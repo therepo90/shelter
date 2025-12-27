@@ -51,6 +51,14 @@
           <td>
             <ion-button expand="block" class="dog-name-btn" [ngClass]="{'green-btn': dog.status, 'red-btn': !dog.status}" (click)="onDogClick(dog)" [disabled]="dog.status === 'X'">{{ dog.name }}</ion-button>
             <ion-text color="danger" *ngIf="markError">{{ markError }}</ion-text>
+            <div *ngIf="dog.recentPresence" style="display:flex; gap:4px; margin-top:4px;justify-content:space-between;">
+              <ng-container *ngFor="let presence of dog.recentPresence">
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                  <div [style.background]="presence.value ? '#2dd36f' : '#eb445a'" style="width:16px; height:16px; border-radius:3px; margin-bottom:2px;">{{presence.value}}</div>
+                  <span style="font-size:0.9em; color:#888;">{{ getShortDate(presence.date) }}</span>
+                </div>
+              </ng-container>
+            </div>
           </td>
           <td class="ion-text-center">
             {{dog.status}}
