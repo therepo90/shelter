@@ -64,10 +64,6 @@ export class DogsService {
   }
 
   sendDogClick(dog: Dog): Observable<any> {
-    if (environment.mock) {
-      console.log('Mock sendDogClick:', dog);
-      return of({success: true});
-    }
     const apiUrl = `${environment.apiUrl}/dogs/${dog.box}/mark`;
 
 
