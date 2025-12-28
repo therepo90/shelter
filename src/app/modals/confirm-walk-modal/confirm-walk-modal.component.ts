@@ -8,7 +8,7 @@ import { Dog } from '../../tab1/dogs.service';
   selector: 'app-confirm-walk-modal',
   template: `
     <div class="confirm-modal-wrapper">
-      <div class="confirm-modal-dogname">{{ dog?.name }}</div>
+      <div class="confirm-modal-dogname">{{ dogName }}</div>
       <ion-button expand="block" color="success" class="big-confirm-btn" (click)="confirm()">Potwierdź</ion-button>
       <ion-button expand="block" color="danger" class="big-cancel-btn" (click)="cancel()">Anuluj</ion-button>
     </div>
@@ -19,6 +19,7 @@ import { Dog } from '../../tab1/dogs.service';
 })
 export class ConfirmWalkModalComponent {
   @Input() dog!: Dog;
+  @Input() dogName!: string;
   private modalCtrl = inject(ModalController);
   cancel() {
     this.modalCtrl.dismiss(null, 'cancel');

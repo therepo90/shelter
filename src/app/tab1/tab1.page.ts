@@ -19,6 +19,30 @@ import { sortDogsByBox } from '../utils/sort-dogs.util';
 import { ConfirmWalkModalComponent } from '../modals/confirm-walk-modal/confirm-walk-modal.component';
 import {map} from "rxjs";
 
+export function calcNewStatus(dog: Dog, dogName: string) {
+  const allDogsInBox = dog.name.split(',').map(n => n.trim().toLowerCase()).filter(n => n.length > 0);
+  if (allDogsInBox.length === 1) {
+    return 'X';
+  } else if (allDogsInBox.length === 2) {
+    return dogName.toUpperCase().slice(0, 1);
+  } else {
+    // merge with current status
+    const currentStatus = dog.status ? dog.status.toUpperCase().split('') : [];
+    const newInitial = dogName.toUpperCase().slice(0, 1);
+    if (!currentStatus.includes(newInitial)) {
+      currentStatus.push(newInitial);
+    }
+    // if status has all the initials of the dogs, return 'X'
+    const allInitials = allDogsInBox.map(n => n.slice(0, 1).toUpperCase());
+    const hasAllInitials = allInitials.every(initial => currentStatus.includes(initial));
+    if (hasAllInitials) {
+      return 'X';
+    }else {
+      return currentStatus.join('');
+    }
+  }
+}
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -96,10 +120,10 @@ export class Tab1Page implements OnInit, ViewWillEnter, OnDestroy {
     }
   }
 
-  async onDogClick(dog: Dog) {
+  async onDogClick(dog: Dog, dogName: string) { // dog zawiera wiele psow
     const modal = await this.modalCtrl.create({
       component: ConfirmWalkModalComponent,
-      componentProps: { dog },
+      componentProps: { dog, dogName },
       showBackdrop: true,
     });
     await modal.present();
@@ -107,20 +131,21 @@ export class Tab1Page implements OnInit, ViewWillEnter, OnDestroy {
     if (role !== 'confirm') return;
     this.markError = null;
     const loading = await this.loadingCtrl.create({
-      message: `Zapisuję spacer dla: ${dog.name}`
+      message: `Zapisuję spacer dla: ${dogName}`
     });
     await loading.present();
-    this.dogsService.sendDogClick(dog).subscribe({
+    this.dogsService.sendDogClick(dog, dogName).subscribe({
       next: async () => {
         await loading.dismiss();
-        dog.status = 'X';
+        const status = calcNewStatus(dog, dogName);
+        dog.status = status;
         //set recent present for this day also. DD/MM/YYYY. Its last
         if(dog.recentPresence && dog.recentPresence.length) {
-          dog.recentPresence[dog.recentPresence.length - 1].value = 'X';
+          dog.recentPresence[dog.recentPresence.length - 1].value = dog.status;
         }
 
         const toast = await this.toastCtrl.create({
-          message: `Spacer zapisany dla: ${dog.name}`,
+          message: `Spacer zapisany dla: ${dogName}`,
           duration: 1200,
           color: 'success'
         });
@@ -128,9 +153,9 @@ export class Tab1Page implements OnInit, ViewWillEnter, OnDestroy {
       },
       error: async () => {
         await loading.dismiss();
-        this.markError = `Błąd zapisywania spaceru dla: ${dog.name}`;
+        this.markError = `Błąd zapisywania spaceru dla: ${dogName}`;
         const toast = await this.toastCtrl.create({
-          message: `Błąd zapisywania spaceru dla: ${dog.name}`,
+          message: `Błąd zapisywania spaceru dla: ${dogName}`,
           duration: 2000,
           color: 'danger'
         });
@@ -150,5 +175,9 @@ export class Tab1Page implements OnInit, ViewWillEnter, OnDestroy {
 
   protected getShortDate(dateMMDDYYYY: string) {
     return dateMMDDYYYY.split('/').slice(0, 2).join('/');
+  }
+
+  splitDogNames(name: string): string[] {
+    return name.split(',').map(n => n.trim()).filter(n => n.length > 0);
   }
 }

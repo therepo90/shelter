@@ -1,5 +1,5 @@
 import {Injectable, inject} from '@angular/core';
-import {catchError, from, Observable, switchMap} from 'rxjs';
+import {catchError, from, Observable, of, switchMap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Platform} from '@ionic/angular';
 import {environment} from 'src/environments/environment';
@@ -11,7 +11,7 @@ export interface DogSimple {
   name: string;
 }
 
-export interface Dog {
+export interface Dog { // to w sumie box obj
   box: string;
   name: string;
   status: string;
@@ -53,8 +53,9 @@ export class DogsService {
     }), this.handleError());
   }
 
-  sendDogClick(dog: Dog): Observable<any> {
-    const apiUrl = `${environment.apiUrl}/dogs/${dog.box}/mark`;
+  sendDogClick(dog: Dog, dogName: string): Observable<any> {
+    //return of(null); // @TODOrmv
+    const apiUrl = `${environment.apiUrl}/dogs/${dog.box}/mark/${encodeURIComponent(dogName.toLowerCase())}`;
 
 
     return from(this.authService.getAuthHeader()).pipe(switchMap((headers) => {

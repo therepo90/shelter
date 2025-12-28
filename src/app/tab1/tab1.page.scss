@@ -17,12 +17,19 @@
   padding: 0.5rem 1rem;
 }
 
+.dog-names-row {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
 .dog-name-btn {
+  flex: 1 1 0;
+  min-width: 0;
   font-size: 1.3rem;
   border-radius: 2rem;
-  width: 100%;
   font-weight: bold;
-  box-shadow: 0 2px 8px rgba(229,57,53,0.15);
+  //box-shadow: 0 2px 8px rgba(229,57,53,0.15);
   margin: 0.2rem 0;
   min-height: 5.5rem; /* zwiększona wysokość */
   padding-top: 1.5rem; /* zwiększony padding */
@@ -58,6 +65,8 @@
     //white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 1 1 0;
+    min-width: 0;
   }
 }
 
