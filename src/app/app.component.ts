@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import { Platform } from '@ionic/angular';
-import {DogSimple, DogsService} from "./tab1/dogs.service";
+import { DogsService } from "./tab1/dogs.service";
 import {firstValueFrom} from "rxjs";
 import {CommonModule} from "@angular/common";
 
@@ -14,7 +14,10 @@ import {CommonModule} from "@angular/common";
 export class AppComponent {
   public initialized: boolean = false;
 
-  constructor(private platform: Platform, private dogsService:DogsService) {
+  private platform = inject(Platform);
+  private dogsService = inject(DogsService);
+
+  constructor() {
     this.platform.ready().then(() => {
       this.checkForUpdate();
     });
@@ -23,11 +26,15 @@ export class AppComponent {
   async checkForUpdate() {
     try {
       const {version} = await firstValueFrom(this.dogsService.getCfg());
-      const localVersion = ''; // @TODO save in prefs
+      const localVersion = await this.dogsService.getVersion();
       if (version && localVersion && version !== localVersion) {
         const bundleInfo = await CapacitorUpdater.download({ url: 'https://therepo90.github.io/shelter/www.zip', version });
         await CapacitorUpdater.set({ id: bundleInfo.id });
+        await this.dogsService.setVersion(version);
         window.location.reload();
+      } else if (version && !localVersion) {
+        // First run or no version stored, just save the version
+        await this.dogsService.setVersion(version);
       }
       this.initialized = true;
     } catch (e) {

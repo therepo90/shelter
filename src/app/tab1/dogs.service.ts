@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {catchError, from, Observable, of, switchMap} from 'rxjs';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {Injectable, inject} from '@angular/core';
+import {catchError, from, Observable, switchMap} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import {Platform} from '@ionic/angular';
 import {environment} from 'src/environments/environment';
 import {Preferences} from '@capacitor/preferences';
@@ -25,20 +25,9 @@ export interface Box {
 @Injectable({providedIn: 'root'})
 export class DogsService {
 
-  private allDogs: Dog[] = [
-    {box: 'A1', name: 'Reksio/Burek/Lunek/Żaba', status: 'x'},
-    {box: 'B2', name: 'Azor', status: ''},
-    {box: 'C3', name: 'Johny', status: 'X'},
-    {box: 'D4', name: 'Max', status: ''},
-    {box: 'E5', name: 'Fafik', status: 'x'},
-    {box: 'F6', name: 'Luna', status: ''},
-    {box: 'G7', name: 'Milo', status: 'X'},
-    {box: 'H8', name: 'Sara', status: ''},
-  ];
-
-
-  constructor(private http: HttpClient, private platform: Platform, private authService: AuthService) {
-  }
+  private http = inject(HttpClient);
+  private platform = inject(Platform);
+  private authService = inject(AuthService);
 
   // Return allDogs without the 'status' property if mock, otherwise fetch from backend
   getAllDogs(): Observable<Dog[]> {
@@ -85,5 +74,15 @@ export class DogsService {
       }
     }
     return [];
+  }
+
+  // --- App Version Persistence ---
+  async getVersion(): Promise<string | null> {
+    const { value } = await Preferences.get({ key: 'appVersion' });
+    return value || null;
+  }
+
+  async setVersion(version: string): Promise<void> {
+    await Preferences.set({ key: 'appVersion', value: version });
   }
 }
