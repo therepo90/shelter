@@ -20,18 +20,17 @@ import { ConfirmWalkModalComponent } from '../modals/confirm-walk-modal/confirm-
 import {map} from "rxjs";
 
 export function calcNewStatus(dog: Dog, dogName: string) {
+  console.log({ dogFull: dog.name, dogName, status: dog.status });
   const allDogsInBox = dog.name.split(',').map(n => n.trim().toLowerCase()).filter(n => n.length > 0);
-  if (allDogsInBox.length === 1) {
-    return 'X';
-  } else if (allDogsInBox.length === 2) {
-    return dogName.toUpperCase().slice(0, 1);
-  } else {
+  console.log({allDogsInBox})
+
     // merge with current status
     const currentStatus = dog.status ? dog.status.toUpperCase().split('') : [];
     const newInitial = dogName.toUpperCase().slice(0, 1);
     if (!currentStatus.includes(newInitial)) {
       currentStatus.push(newInitial);
     }
+    console.log({currentStatus});
     // if status has all the initials of the dogs, return 'X'
     const allInitials = allDogsInBox.map(n => n.slice(0, 1).toUpperCase());
     const hasAllInitials = allInitials.every(initial => currentStatus.includes(initial));
@@ -40,7 +39,6 @@ export function calcNewStatus(dog: Dog, dogName: string) {
     }else {
       return currentStatus.join('');
     }
-  }
 }
 
 @Component({
