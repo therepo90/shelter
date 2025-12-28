@@ -7,6 +7,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "git-info": "git rev-parse HEAD | head -c 8 > .git-version && git add .git-version && git commit -m \"update git version\" --allow-empty",
     "postbuild": "mkdir -p releases && cd www && zip -r ../releases/www.zip . && cd ..",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -15,7 +16,7 @@
     "ionserve": "ionic serve",
     "ion:build:web": "ionic build",
     "mobiledep": "ionic build && ionic cap copy && ionic cap sync && ionic cap open android",
-    "deploy": "git add . && git commit -m \"rls\" --allow-empty && git push -u && npm run mobiledep && ng deploy --base-href=/"
+    "deploy": "npm run mobiledep && git add . && git commit -m \"rls\" --allow-empty && git push -u && ng deploy --base-href=/ && npm run git-info"
   },
   "private": true,
   "dependencies": {
@@ -33,6 +34,7 @@
     "@capacitor/haptics": "8.0.0",
     "@capacitor/keyboard": "8.0.0",
     "@capacitor/preferences": "^8.0.0",
+    "@capacitor/splash-screen": "^8.0.0",
     "@capacitor/status-bar": "8.0.0",
     "@capgo/capacitor-updater": "^8.40.8",
     "@ionic/angular": "^8.0.0",
