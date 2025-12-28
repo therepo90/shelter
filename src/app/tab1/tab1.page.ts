@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ViewWillEnter, LoadingController, ToastController, ModalController } from '@ionic/angular';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { ViewWillEnter, LoadingController, ToastController, ModalController, Platform } from '@ionic/angular';
 import { DogsService, Dog } from './dogs.service';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
@@ -17,7 +17,6 @@ import {
 } from "@ionic/angular/standalone";
 import { sortDogsByBox } from '../utils/sort-dogs.util';
 import { ConfirmWalkModalComponent } from '../modals/confirm-walk-modal/confirm-walk-modal.component';
-import {environment} from "../../environments/environment";
 import {map} from "rxjs";
 
 @Component({
@@ -26,7 +25,7 @@ import {map} from "rxjs";
   styleUrls: ['tab1.page.scss'],
   imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonText, IonButton, IonIcon, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonSpinner, IonRefresher, IonRefresherContent],
 })
-export class Tab1Page implements OnInit, ViewWillEnter {
+export class Tab1Page implements OnInit, ViewWillEnter, OnDestroy {
   dogs: Dog[] = [];
   selectedDogs: Dog[] = [];
   isLoading = false;
@@ -37,14 +36,37 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   private toastCtrl = inject(ToastController);
   private modalCtrl = inject(ModalController);
   live?:boolean = undefined;
-
-  constructor() {}
+  private resumeSubscription: any;
+  private platform = inject(Platform);
 
   async ngOnInit() {
     await this.loadDogs();
     this.isLive().subscribe((live)=>{
       this.live = live;
-  });
+    });
+    // Listen for app resume (mobile)
+    this.platform.ready().then(() => {
+      this.resumeSubscription = this.platform.resume.subscribe(() => {
+        console.log('App resumed');
+        this.loadDogs();
+      });
+    });
+    // Listen for visibility change (web)
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
+  }
+
+  ngOnDestroy() {
+    if (this.resumeSubscription) {
+      this.resumeSubscription.unsubscribe();
+    }
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
+  }
+
+  onVisibilityChange = () => {
+    console.log('Visibility changed:', document.visibilityState);
+    if (document.visibilityState === 'visible') {
+      this.loadDogs();
+    }
   }
 
   async ionViewWillEnter() {
