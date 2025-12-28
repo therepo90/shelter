@@ -36,7 +36,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   private loadingCtrl = inject(LoadingController);
   private toastCtrl = inject(ToastController);
   private modalCtrl = inject(ModalController);
-  live = undefined;
+  live?:boolean = undefined;
 
   constructor() {}
 

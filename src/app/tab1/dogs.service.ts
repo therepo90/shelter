@@ -55,7 +55,7 @@ export class DogsService {
     });
   }
 
-  getCfg(): Observable<any> {
+  getCfg(): Observable<{ version: string; live: boolean }> {
     const apiUrl = environment.apiUrl + '/dogs/cfg';
     return from(this.authService.getAuthHeader()).pipe(switchMap((headers) => {
       return this.http.get<{ live: boolean }>(apiUrl, {
