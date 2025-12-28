@@ -53,9 +53,9 @@
     min-height: 4rem; /* zwiększona wysokość na mobile */
     padding-top: 1.1rem;
     padding-bottom: 1.1rem;
-    max-width: 200px;
+    max-width: 100%;
     // text ellipsis
-    white-space: nowrap;
+    //white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -132,4 +132,16 @@
   color:gray;
   font-size: 0.6rem;
   display: inline-block;
+}
+
+
+.pres-val {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+  margin-bottom: 2px;
 }
