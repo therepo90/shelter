@@ -1,0 +1,1 @@
+function m(s){return s.slice().sort((o,t)=>{let r=o.box.match(/([A-Za-z]+)(\d+)/),e=t.box.match(/([A-Za-z]+)(\d+)/);if(!r||!e)return o.box.localeCompare(t.box);let[l,n,a]=r,[u,c,x]=e;return n!==c?n.localeCompare(c):parseInt(a,10)-parseInt(x,10)})}export{m as a};
