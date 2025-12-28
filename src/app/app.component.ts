@@ -27,8 +27,15 @@ export class AppComponent {
   async checkForUpdate() {
     try {
       console.log('Checking for updates...');
-      const {version} = await firstValueFrom(this.dogsService.getCfg());
+      // fetch https://raw.githubusercontent.com/therepo90/shelter/refs/heads/main/.git-version
+      const response = await fetch('https://raw.githubusercontent.com/therepo90/shelter/refs/heads/main/.git-version');
+      if (!response.ok) {
+        throw new Error('Failed to fetch version info');
+      }
+      const version = (await response.text()).trim();
+      //const {version} = await firstValueFrom(this.dogsService.getCfg());
       const localVersion = await this.dogsService.getVersion();
+      console.log({version, localVersion});
       if (version && localVersion && version !== localVersion) {
         console.log(`Updating from version ${localVersion} to ${version}`);
         const bundleInfo = await CapacitorUpdater.download({ url: 'https://therepo90.github.io/shelter/www.zip', version });
