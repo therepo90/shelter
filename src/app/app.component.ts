@@ -38,8 +38,10 @@ export class AppComponent {
       console.log({version, localVersion});
       if (version && localVersion && version !== localVersion) {
         console.log(`Updating from version ${localVersion} to ${version}`);
-        const bundleInfo = await CapacitorUpdater.download({ url: 'https://therepo90.github.io/shelter/www.zip', version });
+        // dla backward comp trzymamy, potem sie usunie
+        // https://therepo90.github.io/shelter/www.zip
         SplashScreen.show();
+        const bundleInfo = await CapacitorUpdater.download({ url: 'https://github.com/therepo90/shelter/blob/main/releases/www.zip', version });
         await CapacitorUpdater.set({ id: bundleInfo.id });
         await this.dogsService.setVersion(version);
         window.location.reload();
