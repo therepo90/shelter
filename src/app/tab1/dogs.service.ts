@@ -79,11 +79,22 @@ export class DogsService {
 
   // --- App Version Persistence ---
   async getVersion(): Promise<string | null> {
-    const { value } = await Preferences.get({ key: 'appVersion' });
-    return value || null;
+    return this.getWebAppVersion();
   }
 
   async setVersion(version: string): Promise<void> {
-    await Preferences.set({ key: 'appVersion', value: version });
+    //await Preferences.set({ key: 'appVersion', value: version });
+  }
+
+  async getWebAppVersion(): Promise<string | null> {
+    if (!this.platform.is('hybrid')) {
+      try {
+        const version = await this.http.get('assets/.git-version', { responseType: 'text' }).toPromise();
+        return (version || '').trim();
+      } catch {
+        return null;
+      }
+    }
+    return null;
   }
 }

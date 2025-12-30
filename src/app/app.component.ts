@@ -26,7 +26,7 @@ export class AppComponent {
         this.checkForUpdate();
       }else{
         this.initialized = true;
-
+        //await this.dogsService.setVersion(version);
       }
     });
   }
@@ -50,13 +50,13 @@ export class AppComponent {
         SplashScreen.show();
         const bundleInfo = await CapacitorUpdater.download({ url: 'https://raw.githubusercontent.com/therepo90/shelter/refs/heads/main/releases/www.zip', version });
         await CapacitorUpdater.set({ id: bundleInfo.id });
-        await this.dogsService.setVersion(version);
+        //await this.dogsService.setVersion(version);
         alert('Reloading app');
         window.location.reload();
       } else if (version && !localVersion) {
         // First run or no version stored, just save the version
         console.log(`Setting initial version to ${version}`);
-        await this.dogsService.setVersion(version);
+        //await this.dogsService.setVersion(version);
       }else{
         console.log(`App is up to date with version ${localVersion}`);
       }

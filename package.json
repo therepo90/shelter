@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "npm run copy-git-version && ng build",
     "git-info": "git rev-parse HEAD | head -c 8 > .git-version && git add .git-version && git commit -m \"update git version\" --allow-empty && git push -u",
     "postbuild": "mkdir -p releases && cd www && zip -r ../releases/www.zip . && cd ..",
     "watch": "ng build --watch --configuration development",
@@ -16,7 +16,8 @@
     "ionserve": "ionic serve",
     "ion:build:web": "ionic build",
     "mobiledep": "ionic build && npm run postbuild && ionic cap copy && ionic cap sync && ionic cap open android",
-    "deploy": "npm run mobiledep && git add . && git commit -m \"rls\" --allow-empty && git push -u && ng deploy --base-href=/ && npm run git-info"
+    "deploy": "npm run mobiledep && git add . && git commit -m \"rls\" --allow-empty && git push -u && ng deploy --base-href=/ && npm run git-info",
+    "copy-git-version": "node copy-git-version.js"
   },
   "private": true,
   "dependencies": {
