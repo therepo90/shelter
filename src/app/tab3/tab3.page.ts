@@ -25,6 +25,7 @@ export class Tab3Page implements OnInit {
   constructor(private dogsService:DogsService) {
   }
   ngOnInit() {
+    console.log('Tab3Page initialized. GETTING VERSION');
     try {
       this.dogsService.getVersion().then(v => {
         this.version = v;

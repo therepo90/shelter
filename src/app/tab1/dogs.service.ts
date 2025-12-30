@@ -5,6 +5,7 @@ import {Platform} from '@ionic/angular';
 import {environment} from 'src/environments/environment';
 import {Preferences} from '@capacitor/preferences';
 import {AuthService} from "./auth.service";
+import { APP_VERSION } from '../app-version';
 
 export interface DogSimple {
   box: string;
@@ -87,12 +88,7 @@ export class DogsService {
   }
 
   async getWebAppVersion(): Promise<string | null> {
-      try {
-        const version = await this.http.get('assets/.git-version', { responseType: 'text' }).toPromise();
-        return (version || '').trim();
-      } catch {
-        return '';
-      }
-    return null;
+    return APP_VERSION;
   }
+
 }
