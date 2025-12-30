@@ -28,6 +28,7 @@ export class AppComponent {
     try {
       console.log('Checking for updates...');
       // fetch https://raw.githubusercontent.com/therepo90/shelter/refs/heads/main/.git-version
+      // powinno bycf w /releases ta gitversion ale dobra. Potem sie to zmieni - backward comp powinno byc.
       const response = await fetch('https://raw.githubusercontent.com/therepo90/shelter/refs/heads/main/.git-version');
       if (!response.ok) {
         throw new Error('Failed to fetch version info');
@@ -40,10 +41,12 @@ export class AppComponent {
         console.log(`Updating from version ${localVersion} to ${version}`);
         // dla backward comp trzymamy, potem sie usunie
         // https://therepo90.github.io/shelter/www.zip
-        SplashScreen.show();
+        alert(`Updating app to version ${version}. Please wait...`);
+        await SplashScreen.show();
         const bundleInfo = await CapacitorUpdater.download({ url: 'https://github.com/therepo90/shelter/blob/main/releases/www.zip', version });
         await CapacitorUpdater.set({ id: bundleInfo.id });
         await this.dogsService.setVersion(version);
+        alert('Reloading app');
         window.location.reload();
       } else if (version && !localVersion) {
         // First run or no version stored, just save the version
@@ -57,7 +60,7 @@ export class AppComponent {
       // ignore update errors
       alert('Update check error: ' + e);
     }finally{
-      SplashScreen.hide()
+      await SplashScreen.hide()
     }
   }
 }
