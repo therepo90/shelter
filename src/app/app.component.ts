@@ -20,7 +20,11 @@ export class AppComponent {
 
   constructor() {
     this.platform.ready().then(() => {
-      this.checkForUpdate();
+      if (this.platform.is('hybrid')) {
+        this.checkForUpdate();
+      }else{
+        this.initialized = true;
+      }
     });
   }
 
@@ -53,12 +57,14 @@ export class AppComponent {
       }else{
         console.log(`App is up to date with version ${localVersion}`);
       }
-      this.initialized = true;
+
     } catch (e) {
       // ignore update errors
+      console.error('Update check failed', e);
       alert('Update check error: ' + e);
     }finally{
-      await SplashScreen.hide()
+      await SplashScreen.hide();
+      this.initialized = true;
     }
   }
 }
