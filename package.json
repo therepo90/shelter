@@ -8,7 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "git-info": "git rev-parse HEAD | head -c 8 > .git-version && git add .git-version && git commit -m \"update git version\" --allow-empty && git push -u",
-    "postbuild": "mkdir -p releases && cd www && zip -r ../releases/www.zip . && cd .. && cp releases/www.zip src/www.zip",
+    "postbuild": "mkdir -p releases && cd www && zip -r ../releases/www.zip . && cd ..",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
