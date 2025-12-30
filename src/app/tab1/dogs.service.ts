@@ -87,14 +87,12 @@ export class DogsService {
   }
 
   async getWebAppVersion(): Promise<string | null> {
-    if (!this.platform.is('hybrid')) {
       try {
         const version = await this.http.get('assets/.git-version', { responseType: 'text' }).toPromise();
         return (version || '').trim();
       } catch {
-        return null;
+        return '';
       }
-    }
     return null;
   }
 }
