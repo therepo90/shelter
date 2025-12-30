@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "npm run copy-git-version && ng build",
-    "git-info": "git rev-parse HEAD | head -c 8 > .git-version && git add .git-version && git commit -m \"update git version\" --allow-empty && git push -u",
+    "git-info": "node -e \"require('fs').writeFileSync('.git-version', Math.random().toString(36).substring(2, 10))\"",
     "postbuild": "mkdir -p releases && cd www && zip -r ../releases/www.zip . && cd ..",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
