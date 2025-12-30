@@ -19,11 +19,14 @@ export class AppComponent {
   private dogsService = inject(DogsService);
 
   constructor() {
+    // critical
+    CapacitorUpdater.notifyAppReady();
     this.platform.ready().then(() => {
       if (this.platform.is('hybrid')) {
         this.checkForUpdate();
       }else{
         this.initialized = true;
+
       }
     });
   }
@@ -44,7 +47,7 @@ export class AppComponent {
       if (version && localVersion && version !== localVersion) {
         console.log(`Updating from version ${localVersion} to ${version}`);
         alert(`Updating app to version ${version}. Please wait...`);
-        await SplashScreen.show();
+        SplashScreen.show();
         const bundleInfo = await CapacitorUpdater.download({ url: 'https://raw.githubusercontent.com/therepo90/shelter/refs/heads/main/releases/www.zip', version });
         await CapacitorUpdater.set({ id: bundleInfo.id });
         await this.dogsService.setVersion(version);
@@ -63,7 +66,7 @@ export class AppComponent {
       console.error('Update check failed', e);
       alert('Update check error: ' + e);
     }finally{
-      await SplashScreen.hide();
+      SplashScreen.hide();
       this.initialized = true;
     }
   }
