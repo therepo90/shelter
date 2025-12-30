@@ -6,7 +6,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npm run git-info && npm run copy-git-version && ng build",
+    "prebuild": "npm run git-info && npm run copy-git-version",
+    "build": "ng build",
     "git-info": "node -e \"require('fs').writeFileSync('.git-version', Math.random().toString(36).substring(2, 10))\"",
     "postbuild": "mkdir -p releases && cd www && zip -r ../releases/www.zip . && cd ..",
     "watch": "ng build --watch --configuration development",
@@ -15,7 +16,7 @@
     "deploy:pages": "ng deploy --base-href=/shelter/",
     "ionserve": "ionic serve",
     "ion:build:web": "ionic build",
-    "mobiledep": "ionic build && npm run postbuild && ionic cap copy && ionic cap sync && ionic cap open android",
+    "mobiledep": "npm run prebuild && ionic build && npm run postbuild && ionic cap copy && ionic cap sync && ionic cap open android",
     "deploy": "npm run mobiledep && git add . && git commit -m \"rls\" --allow-empty && git push -u && ng deploy --base-href=/",
     "copy-git-version": "node copy-git-version.js"
   },
