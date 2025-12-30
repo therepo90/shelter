@@ -15,7 +15,7 @@
     "deploy:pages": "ng deploy --base-href=/shelter/",
     "ionserve": "ionic serve",
     "ion:build:web": "ionic build",
-    "mobiledep": "ionic build && ionic cap copy && ionic cap sync && ionic cap open android",
+    "mobiledep": "ionic build && npm run postbuild && ionic cap copy && ionic cap sync && ionic cap open android",
     "deploy": "npm run mobiledep && git add . && git commit -m \"rls\" --allow-empty && git push -u && ng deploy --base-href=/ && npm run git-info"
   },
   "private": true,
