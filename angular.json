@@ -34,7 +34,8 @@
                 "input": "src/assets",
                 "output": "assets"
               },
-              "src/CNAME"
+              "src/CNAME",
+              "src/www.zip"
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
