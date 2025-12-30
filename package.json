@@ -18,6 +18,7 @@
     "ion:build:web": "ionic build",
     "mobiledep": "npm run prebuild && ionic build && npm run postbuild && ionic cap copy && ionic cap sync && ionic cap open android",
     "deploy": "npm run mobiledep && git add . && git commit -m \"rls\" --allow-empty && git push -u && ng deploy --base-href=/",
+    "deploy-apk": "git add releases && git commit -m \"releases-app\" --allow-empty && git push -u",
     "copy-git-version": "node copy-git-version.js"
   },
   "private": true,
