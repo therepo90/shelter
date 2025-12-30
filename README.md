@@ -17,3 +17,4 @@ copy contents to /release and rename app-debug to .apk:
 
 [app-debug.apk](android/app/build/outputs/apk/debug/app-debug.apk)
 [output-metadata.json](android/app/build/outputs/apk/debug/output-metadata.json)
+
