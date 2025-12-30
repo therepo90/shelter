@@ -16,7 +16,7 @@
     "ionserve": "ionic serve",
     "ion:build:web": "ionic build",
     "mobiledep": "ionic build && npm run postbuild && ionic cap copy && ionic cap sync && ionic cap open android",
-    "deploy": "npm run mobiledep && git add . && git commit -m \"rls\" --allow-empty && git push -u && ng deploy --base-href=/shelter/",
+    "deploy": "npm run mobiledep && git add . && git commit -m \"rls\" --allow-empty && git push -u && ng deploy --base-href=/",
     "copy-git-version": "node copy-git-version.js"
   },
   "private": true,
