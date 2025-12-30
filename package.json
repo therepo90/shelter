@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npm run copy-git-version && ng build",
+    "build": "npm run git-info && npm run copy-git-version && ng build",
     "git-info": "node -e \"require('fs').writeFileSync('.git-version', Math.random().toString(36).substring(2, 10))\"",
     "postbuild": "mkdir -p releases && cd www && zip -r ../releases/www.zip . && cd ..",
     "watch": "ng build --watch --configuration development",
