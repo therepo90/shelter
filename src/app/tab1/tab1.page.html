@@ -40,14 +40,14 @@
     <table class="dogs-table">
       <thead>
         <tr>
-          <th>BOX</th>
+          <th style="width:70px;">BOX</th>
           <th>IMIĘ</th>
           <!--<th>STATUS</th>-->
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let dog of dogs">
-          <td>{{ dog.box }}</td>
+          <td style="width:70px;">{{ dog.box }}</td>
           <td>
             <div class="dog-names-row">
               <ng-container *ngFor="let dogName of splitDogNames(dog.name)">
