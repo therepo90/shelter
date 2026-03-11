@@ -179,7 +179,12 @@ export class Tab1Page implements OnInit, ViewWillEnter, OnDestroy {
     return name.split(',').map(n => n.trim()).filter(n => n.length > 0);
   }
 
-  protected isDogBtnDisabled(dog:Dog, dogName: string) {
+  isDogBtnDisabled(dog:Dog, dogName: string) {
     return dog.status === 'X' || dog.status === 'x' || (dog.status || '').toLowerCase().includes(dogName.toLowerCase().slice(0,1))
   }
+  isDogBtnGreen(dog:Dog, dogName: string) {
+    const st = this.isDogBtnDisabled(dog, dogName);
+    return st;
+  }
+
 }

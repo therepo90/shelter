@@ -51,7 +51,7 @@
           <td>
             <div class="dog-names-row">
               <ng-container *ngFor="let dogName of splitDogNames(dog.name)">
-                <ion-button class="dog-name-btn" [ngClass]="{'green-btn': dog.status, 'red-btn': !dog.status}" (click)="onDogClick(dog, dogName)" [disabled]="isDogBtnDisabled(dog, dogName)">{{ dogName }}</ion-button>
+                <ion-button class="dog-name-btn" [ngClass]="{'green-btn': isDogBtnGreen(dog, dogName), 'red-btn': !isDogBtnGreen(dog, dogName)}" (click)="onDogClick(dog, dogName)" [disabled]="isDogBtnDisabled(dog, dogName)">{{ dogName }}</ion-button>
               </ng-container>
             </div>
             <div *ngIf="dog.recentPresence" style="display:flex; gap:4px; margin-top:4px;justify-content:space-between;">
