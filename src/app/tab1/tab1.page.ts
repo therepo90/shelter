@@ -178,4 +178,8 @@ export class Tab1Page implements OnInit, ViewWillEnter, OnDestroy {
   splitDogNames(name: string): string[] {
     return name.split(',').map(n => n.trim()).filter(n => n.length > 0);
   }
+
+  protected isDogBtnDisabled(dog:Dog, dogName: string) {
+    return dog.status === 'X' || dog.status === 'x' || (dog.status || '').toLowerCase().includes(dogName.toLowerCase().slice(0,1))
+  }
 }
