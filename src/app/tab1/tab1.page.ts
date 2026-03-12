@@ -180,6 +180,9 @@ export class Tab1Page implements OnInit, ViewWillEnter, OnDestroy {
   }
 
   isDogBtnDisabled(dog:Dog, dogName: string) {
+    if(this.splitDogNames(dogName).length === 1 && (dog.status || '').toLowerCase()==='k') {
+      return true; // jak cos wpisane to ktos wpisal swoje cos typu godzina albo cos innego.
+    }
     return dog.status === 'X' || dog.status === 'x' || (dog.status || '').toLowerCase().includes(dogName.toLowerCase().slice(0,1))
   }
   isDogBtnGreen(dog:Dog, dogName: string) {
